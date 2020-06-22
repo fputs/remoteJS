@@ -5,6 +5,8 @@ This tool has the potential to be used for malicious use, such as inserting form
 
 Furthermore spear phising attacks can be carried out by sending specific content to different people dynamically, including alerts and popups.
 
+Please use responsibly, as I am not liable for any damage (including criminal charges) which may arise from use of this software.
+
 ## Requirements
 To use remoteJS, you will need Python 3.
 Additionally, you will need to install some dependencies:
