@@ -91,10 +91,10 @@ This method will also provide a status and response.
 ## More Examples
 
 ### Getting Information
-We can also use this tool to carry out some recon on our target, so instance, we can get their operating system from executing a simple script:
+We can also use this tool to carry out some recon on our target, for instance, we can get information about their CPU, browser and OS, even if they prevent the browser from sharing this information in GET/POST requests. This is done by executing a simple script:
 
 ```
-(localhost)>exec (navigator.userAgent)
+(localhost)>exec navigator.userAgent
 localhost:5000: Status=OK, Response=Mozilla/5.0 (X11; Linux x86_64; rv:77.0) Gecko/20100101 Firefox/77.0f
 ```
 
