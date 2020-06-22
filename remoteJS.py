@@ -134,6 +134,10 @@ class SessionServer():
         Reads the next command from the command line interface.
         """
         time.sleep(2)
+
+        print("\033[33m * WARNING: I am not liable for any damage (including criminal charges) which may arise from use of this software.")
+        print(" * For more information see the LICENSE file included with this software.\033[0m")
+
         print("\033[32m * Ready!\033[0m\n")
 
         vars = {"RHOST": None}

@@ -32,6 +32,8 @@ You should then see the following interpreter:
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
+ * WARNING: I am not liable for any damage (including criminal charges) which may arise from use of this software.
+ * For more information see the LICENSE file included with this software.
  * Ready!
 
 (None)>
