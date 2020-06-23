@@ -36,7 +36,7 @@ You should then see the following interpreter:
  * Debug mode: off
  * WARNING: I am not liable for any damage (including criminal charges) which may arise from use of this software.
  * For more information see the LICENSE file included with this software.
- * Ready!
+ * Hosting on port 5000
 
 (None)>
 ```
@@ -64,18 +64,18 @@ In order to execute a script in a client's browser, you must first select the cl
 
 Hostname             | TTL (sec)                 
 --------------------------------------------------------------------------------
-localhost            | 2                                                           
+127.0.0.1            | 2                                                           
 ```
 
-In this example, we can see that we have an active session open to `localhost`.
+In this example, we can see that we have an active session open to `127.0.0.1`.
 
 ### Selecting a Host
 Now we must select our host, so we set variables using the `set` command. Naming conventions follow Metasploit's names, so we must set the `RHOST` variable to define our target:
 
 ```
-(None)>set RHOST localhost
-Assigned RHOST -> localhost
-(localhost)>
+(None)>set RHOST 127.0.0.1
+Assigned RHOST -> 127.0.0.1
+(127.0.0.1)>
 ```
 
 You can now see, that the target host appears within the cursor, to indicate that we will execute our scripts within that host's browser.
@@ -86,8 +86,8 @@ Currently remoteJS only supports manual typing of scripts via the commandline, h
 Let's send our target a friendly alert that will say 'Hello localhost!'. To do this, we will use the `exec` command, this allows us to run any Javascript we like:
 
 ```
-(localhost)>exec alert('Hello localhost!')
-localhost:5000: Status=OK
+(127.0.0.1)>exec alert('Hello localhost!')
+127.0.0.1: Status=OK
 ```
 
 This method will also provide a status and response.
@@ -98,8 +98,8 @@ This method will also provide a status and response.
 We can also use this tool to carry out some recon on our target, for instance, we can get information about their CPU, browser and OS, even if they prevent the browser from sharing this information in GET/POST requests. This is done by executing a simple script:
 
 ```
-(localhost)>exec navigator.userAgent
-localhost:5000: Status=OK, Response=Mozilla/5.0 (X11; Linux x86_64; rv:77.0) Gecko/20100101 Firefox/77.0f
+(127.0.0.1)>exec navigator.userAgent
+127.0.0.1: Status=OK, Response=Mozilla/5.0 (X11; Linux x86_64; rv:77.0) Gecko/20100101 Firefox/77.0
 ```
 
 Magic! We now know that the user is on a 64-bit Intel Linux box, running Firefox version 77.
@@ -108,8 +108,8 @@ Magic! We now know that the user is on a 64-bit Intel Linux box, running Firefox
 If you know anything about manipulating DOM with JS, then this will be no surprise, but we can dynamically modify the webpage on the fly. In this example, we insert a new subheading:
 
 ```
-(localhost)>exec {document.getElementsByTagName("body")[0].innerHTML += "<h2>Where did that come from?</h2>"; true;}
-localhost:5000: Status=OK, Response=true
+(127.0.0.1)>exec {document.getElementsByTagName("body")[0].innerHTML += "<h2>Where did that come from?</h2>"; true;}
+127.0.0.1: Status=OK, Response=true
 ```
 
 This adds a subheading containing the text `Where did that come from?`.
