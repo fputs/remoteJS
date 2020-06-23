@@ -20,7 +20,7 @@ To startup the server and interpreter, enter the following:
 
 You should then see the following interpreter:
 ```
-~/Projects/remoteJS >>> python3 wwwserver.py
+~/Projects/remoteJS >>> python3 remoteJS.py
 
         ____                       __           _______
        / __ \___  ____ ___  ____  / /____      / / ___/
